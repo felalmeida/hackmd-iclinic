@@ -13,7 +13,7 @@ Considere as informações abaixo para desenvolver o teste. Se tiver algum tipo 
 
 ## Comentários (Felipe Almeida)
 
-Seguindo as instruções descritas neste documento [Instruções](https://hackmd.io/@pX9Js4-PQPyDJikx2c84JQ/SkrdPmct4?type=view#Servi%C3%A7os-dependentes), segue abaixo algumas considerações.
+Seguindo as instruções descritas neste [documento](https://hackmd.io/@pX9Js4-PQPyDJikx2c84JQ/SkrdPmct4?type=view#Servi%C3%A7os-dependentes), segue abaixo algumas considerações.
 
 * Nas instruções (item 1) é informado que só deverá persistir em banco de dados as informações recebidas no request. Porém na minha solução, além destas informações eu guardei também a informação de timestamp do dado para conseguir realizar a lógica do TTL;
 * É informado também (item 3 das instruções), que para o serviço de métricas não é obrigatório a informação dos atributos referente as clínicas, no meu código eu contemplei esta situação fazendo com que um erro no serviço de clínicas não interrompa o processo e também passando ao serviço de métricas um payload sem a informação da clínica (quando ocorrer essa situação). Porém o serviço de métricas retorna erro quando não é informado os atributos da clínica. De qualquer maneira mantive o código assim (conforme as instruções);
