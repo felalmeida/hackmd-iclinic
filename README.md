@@ -23,7 +23,7 @@ Seguindo as instruções descritas neste [documento](https://hackmd.io/@pX9Js4-P
 Este programa é dependente de uma instância de MongoDB, eu utilizei um contâiner docker executando a versão 4.0.11. Como este desenvolvimento é para fins educacionais/teste nenhuma camada de segurança foi utilizada.
 
 ```
-As informações da sua instância (IP e Porta) deverão ser preenchidas na linha 20 do programa.
+As informações da sua instânciade MongoDB (IP e Porta) deverão ser preenchidas na linha 20 do programa.
 ```
 
 Após estas alterações basta executar o programa com o Python 3, atentando-se para as bibliotecas dependentes.
