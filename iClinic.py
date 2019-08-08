@@ -17,7 +17,7 @@ iClinicPostApp = Flask(__name__)
 iClinicPostPath = "/v2/prescriptions"
 iClinicPostPort = 5000
 
-MongoObj = pymongo.MongoClient('172.17.0.2', 27017)
+MongoObj = pymongo.MongoClient('192.168.121.215', 32770)
 MongoDB = MongoObj.iclinic_db
 
 Errors = {
@@ -374,6 +374,9 @@ def ProcessPost(v_PostJson=""):
     tClinic.join()
     tPatient.join()
 
+    '''
+    Ignore Errors in Clinic API
+    '''
     if ('error' in jPhysician):
         return json.dumps(jPhysician, indent=4, sort_keys=True)
     if ('error' in jPatient):
@@ -383,10 +386,6 @@ def ProcessPost(v_PostJson=""):
 
     '''
     Create Metrics Request Body
-    '''
-
-    '''
-    Ignore Errors in Clinic API
     '''
     if ('error' in jClinic):
         dMetrics = {
