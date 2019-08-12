@@ -219,6 +219,7 @@ def GetPatientAPI(v_PatientId=-1):
 def SetMetricsAPI(v_jMetrics):
     global Errors
 
+    MetricTotalTime = datetime.utcnow().timestamp()
     MetricsHost = "https://mysterious-island-73235.herokuapp.com"
     MetricsMethod = "POST"
     MetricsPath = "/api/metrics"
@@ -265,6 +266,9 @@ def SetMetricsAPI(v_jMetrics):
         jErrorStr = ('{"error":{"message":"'+jResponse['userMessage'] +
                      '","code":"'+jResponse['errorCode']+'"}}')
         jResponse = json.loads(jErrorStr)
+    MetricTotalTime = ((datetime.utcnow().timestamp() - MetricTotalTime)
+                       * 1000)
+    print("Metric Total Time: %.3f ms" % (MetricTotalTime))
 
     return jResponse
 
@@ -272,6 +276,7 @@ def SetMetricsAPI(v_jMetrics):
 def GetPhysician(v_PhysicianId=-1):
     global jPhysician, MongoDB
 
+    PhysicianTotalTime = datetime.utcnow().timestamp()
     PhysicianTTL = (48*3600)
     MongoAlb = MongoDB.iclinic_physician_collection
 
@@ -280,10 +285,11 @@ def GetPhysician(v_PhysicianId=-1):
         DbTTL = int(datetime.utcnow().timestamp()) - PhysicianDB['insert_ts']
         if (DbTTL > PhysicianTTL):
             GetPhysicianAPI(v_PhysicianId)
-            MongoAlb.delete_one({"_id": v_PhysicianId})
-            jPhysician['_id'] = jPhysician['data']['id']
-            jPhysician['insert_ts'] = int(datetime.utcnow().timestamp())
-            MongoAlb.insert_one(jPhysician)
+            if ('error' not in jPhysician):
+                MongoAlb.delete_one({"_id": v_PhysicianId})
+                jPhysician['_id'] = jPhysician['data']['id']
+                jPhysician['insert_ts'] = int(datetime.utcnow().timestamp())
+                MongoAlb.insert_one(jPhysician)
         else:
             print("Returning Physician from MongoDB")
             jPhysician = PhysicianDB
@@ -293,11 +299,15 @@ def GetPhysician(v_PhysicianId=-1):
             jPhysician['_id'] = jPhysician['data']['id']
             jPhysician['insert_ts'] = int(datetime.utcnow().timestamp())
             MongoAlb.insert_one(jPhysician)
+    PhysicianTotalTime = ((datetime.utcnow().timestamp() - PhysicianTotalTime)
+                          * 1000)
+    print("Physician Total Time: %.3f ms" % (PhysicianTotalTime))
 
 
 def GetClinic(v_ClinicId=-1):
     global jClinic, MongoDB
 
+    ClinicTotalTime = datetime.utcnow().timestamp()
     ClinicTTL = (72*3600)
     MongoAlb = MongoDB.iclinic_clinic_collection
 
@@ -306,10 +316,11 @@ def GetClinic(v_ClinicId=-1):
         DbTTL = int(datetime.utcnow().timestamp()) - ClinicDB['insert_ts']
         if (DbTTL > ClinicTTL):
             GetClinicAPI(v_ClinicId)
-            MongoAlb.delete_one({"_id": v_ClinicId})
-            jClinic['_id'] = jClinic['data']['id']
-            jClinic['insert_ts'] = int(datetime.utcnow().timestamp())
-            MongoAlb.insert_one(jClinic)
+            if ('error' not in jClinic):
+                MongoAlb.delete_one({"_id": v_ClinicId})
+                jClinic['_id'] = jClinic['data']['id']
+                jClinic['insert_ts'] = int(datetime.utcnow().timestamp())
+                MongoAlb.insert_one(jClinic)
         else:
             print("Returning Clinic from MongoDB")
             jClinic = ClinicDB
@@ -319,11 +330,15 @@ def GetClinic(v_ClinicId=-1):
             jClinic['_id'] = jClinic['data']['id']
             jClinic['insert_ts'] = int(datetime.utcnow().timestamp())
             MongoAlb.insert_one(jClinic)
+    ClinicTotalTime = ((datetime.utcnow().timestamp() - ClinicTotalTime)
+                       * 1000)
+    print("Clinic Total Time: %.3f ms" % (ClinicTotalTime))
 
 
 def GetPatient(v_PatientId=-1):
     global jPatient, MongoDB
 
+    PatientTotalTime = datetime.utcnow().timestamp()
     PatientTTL = (12*3600)
     MongoAlb = MongoDB.iclinic_patient_collection
 
@@ -332,10 +347,11 @@ def GetPatient(v_PatientId=-1):
         DbTTL = int(datetime.utcnow().timestamp()) - PatientDB['insert_ts']
         if (DbTTL > PatientTTL):
             GetPatientAPI(v_PatientId)
-            MongoAlb.delete_one({"_id": v_PatientId})
-            jPatient['_id'] = jPatient['data']['id']
-            jPatient['insert_ts'] = int(datetime.utcnow().timestamp())
-            MongoAlb.insert_one(jPatient)
+            if ('error' not in jPatient):
+                MongoAlb.delete_one({"_id": v_PatientId})
+                jPatient['_id'] = jPatient['data']['id']
+                jPatient['insert_ts'] = int(datetime.utcnow().timestamp())
+                MongoAlb.insert_one(jPatient)
         else:
             print("Returning Patient from MongoDB")
             jPatient = PatientDB
@@ -345,6 +361,9 @@ def GetPatient(v_PatientId=-1):
             jPatient['_id'] = jPatient['data']['id']
             jPatient['insert_ts'] = int(datetime.utcnow().timestamp())
             MongoAlb.insert_one(jPatient)
+    PatientTotalTime = ((datetime.utcnow().timestamp() - PatientTotalTime)
+                        * 1000)
+    print("Patient Total Time: %.3f ms" % (PatientTotalTime))
 
 
 def ProcessPost(v_PostJson=""):
