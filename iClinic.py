@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/local/bin/python3
 # -*- coding: UTF-8 -*-
 ###############################################################################
 # Module:   iClinic.py                 Autor: Felipe Almeida                  #
@@ -17,7 +17,7 @@ iClinicPostApp = Flask(__name__)
 iClinicPostPath = "/v2/prescriptions"
 iClinicPostPort = 5000
 
-MongoObj = pymongo.MongoClient('192.168.121.215', 32770)
+MongoObj = pymongo.MongoClient('192.168.121.202', 27017)
 MongoDB = MongoObj.iclinic_db
 
 Errors = {
